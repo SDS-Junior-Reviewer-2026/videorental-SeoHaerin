@@ -21,10 +21,23 @@ public class CustomerTest {
                 + "You earned 1 frequent renter pointers", customer.statement());
     }
 
-    private static Rental createRentalFor(int priceCode, int daysRented) {
-        Movie movie= new Movie(TITLE, priceCode);
+    private Rental createRentalFor(int priceCode, int daysRented) {
+        Movie movie= getMovie(priceCode);
         Rental rental= new Rental(movie, daysRented);
         return rental;
+    }
+
+    private Movie getMovie(int priceCode) {
+        switch (priceCode) {
+            case Movie.REGULAR:
+                return new RegularMovie(TITLE);
+            case Movie.NEW_RELEASE:
+                return new NewReleaseMovie(TITLE);
+            case Movie.CHILDRENS:
+                return new ChildrenMovie(TITLE);
+            default:
+                return null;
+        }
     }
 
     @Test
@@ -69,7 +82,7 @@ public class CustomerTest {
     }
     @Test
     void movieShouldChangePriceCode() {
-        Movie movie = new Movie("Jaws", Movie.NEW_RELEASE);
+        Movie movie = new NewReleaseMovie("Jaws");
         customer.addRental(createRentalFor(Movie.NEW_RELEASE, 2));
         movie.setPriceCode(Movie.CHILDRENS);
         Assertions.assertEquals(Movie.CHILDRENS, movie.getPriceCode());
@@ -79,18 +92,12 @@ public class CustomerTest {
     @Test
     void sample() {
         Customer customer = new Customer("Bob");
-        customer.addRental(new Rental(new Movie("Jaws", Movie.REGULAR),
-                2));
-        customer.addRental(new Rental(new Movie("GoldenEye", Movie.REGULAR),
-                3));
-        customer.addRental(new Rental(new Movie("ShortNew", Movie.NEW_RELEASE),
-                1));
-        customer.addRental(new Rental(new Movie("LongNew", Movie.NEW_RELEASE),
-                2));
-        customer.addRental(new Rental(new Movie("Bambi", Movie.CHILDRENS),
-                3));
-        customer.addRental(new Rental(new Movie("Toy Story", Movie.CHILDRENS),
-                4));
+        customer.addRental(new Rental(new RegularMovie("Jaws"), 2));
+        customer.addRental(new Rental(new RegularMovie("GoldenEye"), 3));
+        customer.addRental(new Rental(new NewReleaseMovie("ShortNew"), 1));
+        customer.addRental(new Rental(new NewReleaseMovie("LongNew"), 2));
+        customer.addRental(new Rental(new ChildrenMovie("Bambi"), 3));
+        customer.addRental(new Rental(new ChildrenMovie("Toy Story"), 4));
         String receipt = customer.statement();
         System.out.println(receipt);
 
