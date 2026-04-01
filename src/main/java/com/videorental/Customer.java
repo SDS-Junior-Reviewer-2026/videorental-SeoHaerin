@@ -16,9 +16,7 @@ class Customer {
 		rentals.add(rental);
 	}
 
-	public String getName() {
-		return name;
-	}
+	public String getName() {return name;}
 
 	public String statement() {
 		double totalAmount = 0;
