@@ -1,6 +1,6 @@
 package com.videorental;
-
-public class Movie {
+//git test
+public abstract class Movie {
 	public static final int CHILDRENS = 2;
 	public static final int REGULAR = 0;
 	public static final int NEW_RELEASE = 1;
@@ -23,5 +23,9 @@ public class Movie {
 
 	public String getTitle() {
 		return title;
+	}
+
+	double getChargeFor(int daysRented) {
+		throw new UnsupportedOperationException("Subclass responsibility");
 	}
 }
